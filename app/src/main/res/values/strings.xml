@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">FruitTest_One</string>
+    <string name="back">返回</string>
+    <string name="add">添加</string>
+    <string name="dAll">删除全部</string>
+    <string name="number_1">1</string>
+    <string name="apple">苹果</string>
+    <string name="hfs">红富士</string>
+    <string name="fId">请输入水果序号：</string>
+    <string name="fName">请输入水果名称：</string>
+    <string name="fruit_as">如：苹果、香蕉、西瓜…</string>
+    <string name="fType">请输入水果类型：</string>
+    <string name="type_as">如：红富士…（没有请输无）</string>
+    <string name="welcome">欢迎使用水果列表</string>
+    <string name="send">提交</string>
+    <string name="finish">添加成功，点击“确定”查看列表</string>
+    <string name="ok">确定</string>
 </resources>
