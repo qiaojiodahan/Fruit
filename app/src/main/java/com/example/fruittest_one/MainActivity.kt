@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var add: Button
     private lateinit var rec: RecyclerView
     private lateinit var fDao: FruitDao
+    private val adapter = MyAdapter(fList = mutableListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,37 +37,69 @@ class MainActivity : AppCompatActivity() {
 
         add.setOnClickListener { startActivity(Intent(this, AddTest::class.java)) }
 
-        fDao =Room.databaseBuilder(applicationContext, AppDataBase::class.java, "fruit.db")
-                .allowMainThreadQueries()
-                .build()
-                .getFruitDao()
+        fDao = Room.databaseBuilder(applicationContext, AppDataBase::class.java, "fruit.db")
+            .allowMainThreadQueries()
+            .build()
+            .getFruitDao()
 
         val dAll = findViewById<Button>(R.id.dAll)
-        dAll.setOnClickListener { fDao.deleteAll() }
+        dAll.setOnClickListener {
+            fDao.deleteAll()
+            adapter.setNewData(fDao.getAllFruits())
+
+        }
 
         val fList: MutableList<Fruit> = mutableListOf()
 
 //        fList.addAll(list)
         fDao.insertAll(fList)
 
-
         rec.layoutManager = LinearLayoutManager(this)
 
-        rec.adapter = MyAdapter(fDao.getAllFruits())
+        rec.adapter = adapter
+        adapter.listener = object : MyAdapter.Listener {
+            override fun onItemClick(index: Int) {
+
+            }
+
+            override fun onDelClick(index: Int, obj: Fruit) {
+                fDao.delete(obj)
+                fDao.getAllFruits()
+                adapter.setNewData(fDao.getAllFruits())
+            }
+
+        }
+        adapter.setNewData(fDao.getAllFruits())
+
     }
 
     override fun onResume() {
         super.onResume()
-        rec.adapter = MyAdapter(fDao.getAllFruits())
+        adapter.setNewData(fDao.getAllFruits())
     }
 
 }
 
 class MyAdapter(private var fList: MutableList<Fruit>) : RecyclerView.Adapter<MyViewHolder>() {
+
+    var listener: Listener? = null
+
+    interface Listener {
+        fun onItemClick(index: Int)
+        fun onDelClick(index: Int,obj:Fruit)
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
         return MyViewHolder(itemView)
+    }
+
+    fun setNewData(ls: List<Fruit>) {
+        fList.clear()
+        fList.addAll(ls)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
@@ -78,6 +111,18 @@ class MyAdapter(private var fList: MutableList<Fruit>) : RecyclerView.Adapter<My
         holder.fruitID.text = fruit.fruitID.toString()
         holder.fruitName.text = fruit.fruitName
         holder.fruitType.text = fruit.fruitType
+        holder.itemView.setOnClickListener {
+//            listener?.onItemClick()
+//            onItemClick?.invoke(viewType)
+//            val position = viewHolder.adapterPosition
+//            val fruit = fList[position]
+//            Toast.makeText(parent.context, "点击了 ${fruit.fruitName}", Toast.LENGTH_SHORT).show()
+            listener?.onItemClick(position)
+
+        }
+        holder.delFruit.setOnClickListener {
+            listener?.onDelClick(position,fruit)
+        }
     }
 
 }
@@ -86,4 +131,5 @@ class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val fruitID: TextView = itemView.findViewById(R.id.id)
     val fruitName: TextView = itemView.findViewById(R.id.name)
     val fruitType: TextView = itemView.findViewById(R.id.type)
+    val delFruit: Button = itemView.findViewById(R.id.del)
 }

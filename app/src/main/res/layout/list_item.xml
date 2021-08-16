@@ -8,43 +8,46 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:orientation="horizontal"
-        tools:ignore="UseCompoundDrawables,UselessParent">
+        tools:ignore="UselessParent"
+        >
 
         <TextView
             android:id="@+id/id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="70dp"
             android:text="@string/number_1"
+            android:textStyle="bold"
+            android:layout_weight="1"
             android:textSize="30sp"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"/>
+            />
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="70dp"
             android:text="@string/apple"
             android:textSize="30sp"
-            android:layout_gravity="center"
+            android:textStyle="bold"
             android:layout_weight="1"
-            android:layout_marginStart="30dp"/>
+            android:gravity="center"
+            />
 
         <TextView
             android:id="@+id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="70dp"
             android:text="@string/hfs"
+            android:gravity="center"
             android:textSize="20sp"
-            android:layout_marginStart="20dp"
             android:layout_weight="1"
-            android:layout_gravity="center"/>
+            />
 
         <Button
             android:id="@+id/del"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:layout_margin="15dp"
             android:text="@string/delete"

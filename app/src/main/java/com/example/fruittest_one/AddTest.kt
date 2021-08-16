@@ -44,6 +44,8 @@ class AddTest : Activity() {
                 startActivity(Intent(this, FinishTest::class.java))
             }
 
+            fruitN.text = null
+            fruitT.text = null
         }
 
     }

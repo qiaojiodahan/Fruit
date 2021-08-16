@@ -23,4 +23,7 @@ interface FruitDao:BaseDao<Fruit>{
     @Query("delete from Fruit")
     fun deleteAll()
 
+    @Query("delete from Fruit where fruitID = :fruitID")
+    fun delete(fruitID: Int):Int
+
 }
